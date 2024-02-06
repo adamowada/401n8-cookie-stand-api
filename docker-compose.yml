@@ -8,3 +8,13 @@ services:
       - .:/code
     ports:
       - 8000:8000
+
+  nginx: # Defines the second service, 'nginx', which is a web server to handle HTTP requests.
+    image: nginx:latest  # Specifies to use the latest nginx image from Docker Hub instead of building from a Dockerfile.
+    ports:
+      - "80:80"  # Maps port 80 on the host to port 80 on the nginx container, making the web server accessible from outside the Docker environment.
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro  # Mounts a custom nginx configuration file from the host to the container in read-only mode.
+    depends_on:
+      - web  # Specifies that the nginx service depends on the web service. Docker Compose will start the web service first.
+
